@@ -11,6 +11,11 @@ const privacyValues = [
   { value: 'open', label: 'Открытые' },
 ];
 
+const friendValues = [
+  { value: 'yes', label: 'Да' },
+  { value: 'no', label: 'Нет' },
+];
+
 function GroupList() {
   const [privacyFilter, setPrivacyFilter] = useState<string>('all');
   const [avatarColorFilter, setAvatarColorFilter] = useState<string>('any');
@@ -71,6 +76,8 @@ function GroupList() {
     fetchData();
   }, []);
 
+  console.log(hasFriendsFilter)
+
   const filteredGroups = filterGroups();
 
   return (
@@ -78,6 +85,7 @@ function GroupList() {
       <Group className="filters">
         <FormItem htmlFor="select-id" top="Приватность" className="filters__item">
           <Select
+            defaultValue="all"
             id="privacy"
             placeholder="Не выбрана"
             options={privacyValues}
@@ -88,8 +96,8 @@ function GroupList() {
         </FormItem>
         <FormItem htmlFor="select-id" top="Цвет обложки" className="filters__item">
           <Select
-            id="privacy"
-            placeholder="Не выбрана"
+            id="colors"
+            placeholder="Не выбран"
             options={avatarColors.map((color) => ({
               label: color[0].toUpperCase() + color.slice(1),
               value: color,
@@ -100,38 +108,17 @@ function GroupList() {
             renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
           />
         </FormItem>
-        {/* <FormItem htmlFor="select-id" top="Цвет обложки" className="filters__item">
+        <FormItem htmlFor="select-id" top="Есть друзья" className="filters__item">
           <Select
-            id="privacy"
-            placeholder="Не выбрана"
-            options={avatarColors.map((color) => ({
-              label: color[0].toUpperCase() + color.slice(1),
-              value: color,
-              avatar: color,
-            }))}
-            onChange={(e) => setAvatarColorFilter(e.target.value)}
+            id="friends"
+            placeholder="Не выбрано"
+            options={friendValues}
+            onChange={(e) => setHasFriendsFilter(e.target.value === 'yes')}
             // eslint-disable-next-line react/jsx-props-no-spreading
             renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
           />
-        </FormItem> */}
+        </FormItem>
       </Group>
-
-      <div>
-        {/* <label>
-          Цвет обложки:
-          <select value={avatarColorFilter} onChange={(e) => setAvatarColorFilter(e.target.value)}>
-            {avatarColors.map((color) => (
-              <option value={color} key={color}>
-                {color[0].toUpperCase() + color.slice(1)}
-              </option>
-            ))}
-          </select>
-        </label> */}
-        <label>
-          Есть друзья:
-          <input type="checkbox" checked={hasFriendsFilter} onChange={(e) => setHasFriendsFilter(e.target.checked)} />
-        </label>
-      </div>
       <div className="groups">
         {filteredGroups.map((group) => (
           <GroupItem key={group.id} group={group} />
