@@ -6,6 +6,7 @@ import GroupItem from '../GroupItem/GroupItem';
 function GroupList() {
   const [privacyFilter, setPrivacyFilter] = useState<string>('all');
   const [avatarColorFilter, setAvatarColorFilter] = useState<string>('any');
+  const [avatarColors, setAvatarColors] = useState<string[]>(['any']);
   const [hasFriendsFilter, setHasFriendsFilter] = useState<boolean>(false);
   const [groups, setGroups] = useState<Group[]>([]);
   const [error, setError] = useState(null);
@@ -23,8 +24,20 @@ function GroupList() {
         // if (data.result === 0 || !data.data) {
         //   throw new Error('Error fetching groups: result 0 or no data field');
         // }
-        setGroups(data);
 
+        const newAvatarColors = [
+          ...new Set(
+            data.reduce((acc, current) => {
+              if (current.avatar_color !== undefined) {
+                acc.push(current.avatar_color);
+              }
+              return acc;
+            }, []),
+          ),
+        ];
+
+        setGroups(data);
+        setAvatarColors([...avatarColors, ...newAvatarColors]);
       }, 1000);
     } catch (e: any) {
       setError(e.message);
@@ -36,7 +49,7 @@ function GroupList() {
   }, []);
 
   return (
-    <div className='container'>
+    <div className="container">
       <div>
         <label>
           Приватность:
@@ -49,7 +62,11 @@ function GroupList() {
         <label>
           Цвет обложки:
           <select value={avatarColorFilter} onChange={(e) => setAvatarColorFilter(e.target.value)}>
-            <option value="any">Any</option>
+            {avatarColors.map((color) => (
+              <option value={color} key={color}>
+                {color[0].toUpperCase() + color.slice(1)}
+              </option>
+            ))}
           </select>
         </label>
         <label>

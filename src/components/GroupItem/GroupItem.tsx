@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Group, User } from '../../types';
 import './style.css';
 
@@ -32,6 +32,9 @@ function GroupItem({ group }: { group: Group }) {
           <div className="group__friends">
             <ul>
               {selectedFriends.map((friend, index) => (
+                // поскольку элементы массива остаются неизменными, и порядок элементов в массиве сохраняется,
+                // то в таком случае использование индекса массива в качестве ключа является безопасным
+                // eslint-disable-next-line react/no-array-index-key
                 <li key={index}>{`${friend.first_name} ${friend.last_name}`}</li>
               ))}
             </ul>
