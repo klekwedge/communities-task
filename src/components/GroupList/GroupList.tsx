@@ -1,17 +1,22 @@
 import { useState, useEffect } from 'react';
-import { CustomSelectOption, Select } from '@vkontakte/vkui';
+import { Card, CardGrid, CustomSelectOption, FormItem, Group, Panel, PanelHeader, Select, View } from '@vkontakte/vkui';
 
-import { Group } from '../../types';
+import { GroupType } from '../../types';
 import './style.css';
 import GroupItem from '../GroupItem/GroupItem';
 
+const privacyValues = [
+  { value: 'all', label: 'Все' },
+  { value: 'closed', label: 'Закрытые' },
+  { value: 'open', label: 'Открытые' },
+];
 
 function GroupList() {
   const [privacyFilter, setPrivacyFilter] = useState<string>('all');
   const [avatarColorFilter, setAvatarColorFilter] = useState<string>('any');
   const [avatarColors, setAvatarColors] = useState<string[]>(['any']);
   const [hasFriendsFilter, setHasFriendsFilter] = useState<boolean>(false);
-  const [groups, setGroups] = useState<Group[]>([]);
+  const [groups, setGroups] = useState<GroupType[]>([]);
   const [error, setError] = useState(null);
 
   const fetchData = async () => {
@@ -47,7 +52,7 @@ function GroupList() {
     }
   };
 
-  const filterGroups = (): Group[] =>
+  const filterGroups = (): GroupType[] =>
     groups.filter((group) => {
       // Фильтрация по типу приватности
       if (privacyFilter === 'closed' && !group.closed) return false;
@@ -70,32 +75,49 @@ function GroupList() {
 
   return (
     <div className="container">
-      <Select
-          id="select-id"
-          placeholder="Не выбран"
-          options={['test', 'luke'].map((user) => ({
-            label: user,
-            value: user,
-            avatar: user,
-          }))}
-          renderOption={({ option, ...restProps }) => (
-            <CustomSelectOption
-              {...restProps}
-              key={option.value}
-              
-            />
-          )}
-        />
+      <Group className="filters">
+        <FormItem htmlFor="select-id" top="Приватность" className="filters__item">
+          <Select
+            id="privacy"
+            placeholder="Не выбрана"
+            options={privacyValues}
+            onChange={(e) => setPrivacyFilter(e.target.value)}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
+          />
+        </FormItem>
+        <FormItem htmlFor="select-id" top="Цвет обложки" className="filters__item">
+          <Select
+            id="privacy"
+            placeholder="Не выбрана"
+            options={avatarColors.map((color) => ({
+              label: color[0].toUpperCase() + color.slice(1),
+              value: color,
+              avatar: color,
+            }))}
+            onChange={(e) => setAvatarColorFilter(e.target.value)}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
+          />
+        </FormItem>
+        {/* <FormItem htmlFor="select-id" top="Цвет обложки" className="filters__item">
+          <Select
+            id="privacy"
+            placeholder="Не выбрана"
+            options={avatarColors.map((color) => ({
+              label: color[0].toUpperCase() + color.slice(1),
+              value: color,
+              avatar: color,
+            }))}
+            onChange={(e) => setAvatarColorFilter(e.target.value)}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
+          />
+        </FormItem> */}
+      </Group>
+
       <div>
-        <label>
-          Приватность:
-          <select value={privacyFilter} onChange={(e) => setPrivacyFilter(e.target.value)}>
-            <option value="all">Все</option>
-            <option value="closed">Закрытые</option>
-            <option value="open">Открытые</option>
-          </select>
-        </label>
-        <label>
+        {/* <label>
           Цвет обложки:
           <select value={avatarColorFilter} onChange={(e) => setAvatarColorFilter(e.target.value)}>
             {avatarColors.map((color) => (
@@ -104,7 +126,7 @@ function GroupList() {
               </option>
             ))}
           </select>
-        </label>
+        </label> */}
         <label>
           Есть друзья:
           <input type="checkbox" checked={hasFriendsFilter} onChange={(e) => setHasFriendsFilter(e.target.checked)} />

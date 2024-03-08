@@ -1,9 +1,9 @@
 export interface GetGroupsResponse {
     result: 1 | 0,
-    data?: Group[]
+    data?: GroupType[]
 }
 
-export interface Group {
+export interface GroupType {
     "id": number,
     "name": string,
     "closed": boolean,
