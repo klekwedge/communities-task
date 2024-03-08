@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Group, User } from '../../types';
+import { CustomSelectOption, Select } from '@vkontakte/vkui';
+
+import { Group } from '../../types';
 import './style.css';
 import GroupItem from '../GroupItem/GroupItem';
+
 
 function GroupList() {
   const [privacyFilter, setPrivacyFilter] = useState<string>('all');
@@ -44,7 +47,8 @@ function GroupList() {
     }
   };
 
-  const filterGroups = (): Group[] => groups.filter(group => {
+  const filterGroups = (): Group[] =>
+    groups.filter((group) => {
       // Фильтрация по типу приватности
       if (privacyFilter === 'closed' && !group.closed) return false;
       if (privacyFilter === 'open' && group.closed) return false;
@@ -66,6 +70,22 @@ function GroupList() {
 
   return (
     <div className="container">
+      <Select
+          id="select-id"
+          placeholder="Не выбран"
+          options={['test', 'luke'].map((user) => ({
+            label: user,
+            value: user,
+            avatar: user,
+          }))}
+          renderOption={({ option, ...restProps }) => (
+            <CustomSelectOption
+              {...restProps}
+              key={option.value}
+              
+            />
+          )}
+        />
       <div>
         <label>
           Приватность:
