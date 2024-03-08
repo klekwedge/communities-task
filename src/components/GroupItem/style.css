@@ -37,3 +37,9 @@
   border-bottom: 1px solid black;
 }
 
+.group__friends {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
