@@ -24,7 +24,7 @@ function GroupList() {
         //   throw new Error('Error fetching groups: result 0 or no data field');
         // }
         setGroups(data);
-        
+
       }, 1000);
     } catch (e: any) {
       setError(e.message);
@@ -36,7 +36,7 @@ function GroupList() {
   }, []);
 
   return (
-    <div>
+    <div className='container'>
       <div>
         <label>
           Приватность:

@@ -1,9 +1,13 @@
+.container {
+  padding: 50px 0px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .groups {
   display: flex;
-  margin: 0 auto;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 10px 50px;
-  max-width: 600px;
 }
