@@ -28,15 +28,14 @@ function GroupItem({ group }: { group: Group }) {
     <div className="groups__group group" key={group.id}>
       <img
         className="group__image"
-        // * Закоментировать строчку ниже в случае, если очень яркие аватарки сообществ на экране
-        src={`https://placehold.co/100x100/${group.avatar_color || '000000'}/FFFFFF?text=${group.name}&font=roboto`}
+        // * В случае, если очень яркие аватарки сообществ на экране и хочется выставить более спокойный цвет,
+        // * то нужно закомментировать строчку "#"" и расскоментировать строчку "&"" ниже:
 
-        // * Расскоментировать строчку ниже в случае, если очень яркие аватарки сообществ на экране
-        // src={`https://placehold.co/100x100/0077FF/FFFFFF?text=${group.name}&font=roboto`}
+        src={`https://placehold.co/100x100/${group.avatar_color || '000000'}/FFFFFF?text=${group.name}&font=roboto`} // #
+        // src={`https://placehold.co/100x100/0077FF/FFFFFF?text=${group.name}&font=roboto`} // &
         alt={group.name}
       />
       <div>
-        {group.avatar_color}
         <h2 className="group__name">{group.name}</h2>
         <p>{group.closed ? 'Закрытая' : 'Открытая'} группа</p>
 

@@ -80,10 +80,13 @@ function GroupList() {
 
   return (
     <div className="container">
+      {/* Отображаем спиннер при загрузке */}
       {loadingStatus === 'loading' && <Spinner size="large" style={{ margin: '20px 0' }} />}
+
+      {/* Отображаем фильтры и сообщества, если статус загрузки равен idle */}
       {loadingStatus === 'idle' && (
         <>
-          {' '}
+          {/* Отображаем фильтры */}
           <Group className="filters">
             <FormItem htmlFor="select-id" top="Приватность" className="filters__item">
               <Select
@@ -121,11 +124,15 @@ function GroupList() {
               />
             </FormItem>
           </Group>
+
+          {/* Отображаем список сообществ */}
           <div className="groups">
             {filteredGroups.map((group) => (
               <GroupItem key={group.id} group={group} />
             ))}
           </div>
+
+          {/* Отображаем сообщение об отсутствии сообществ с учетом выбранных фильтров */}
           {!filteredGroups.length && (
             <h2 className="groups__title">
               Сообщества не найдены. По вашим критериям поиска нет результатов. Попробуйте изменить фильтры или
