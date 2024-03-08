@@ -4,7 +4,6 @@ import './style.css';
 
 function GroupItem({ group }: { group: Group }) {
   const [selectedFriends, setSelectedFriends] = useState<User[]>([]);
-  const [error, setError] = useState(null);
 
   const handleFriendsClick = (friends: User[]) => {
     setSelectedFriends(selectedFriends.length ? [] : friends);
