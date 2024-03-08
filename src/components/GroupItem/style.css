@@ -1,7 +1,7 @@
 .group {
   display: flex;
   gap: 20px;
-  border: 1px solid black;
+  border-bottom: 1px solid gray;
   margin: 10px;
   padding: 15px;
   border-radius: 5px;
@@ -19,25 +19,20 @@
   margin-bottom: 10px;
 }
 
+.group__statistic {
+  display: flex;
+  gap: 3px;
+}
 
 .group__friends-count {
   cursor: pointer;
-  transition: all 0.5s ease;
+  transition: all 0.3s ease;
   position: relative;
+  border-bottom: 1px solid transparent;
   margin-bottom: 6px;
 }
 
-.group__friends-count::before {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 1.5px;
-  background-color: rgb(17, 79, 225);
-  transition: width 0.3s ease;
+.group__friends-count:hover {
+  border-bottom: 1px solid black;
 }
 
-.group__friends-count:hover::before {
-  width: 55px;
-}
