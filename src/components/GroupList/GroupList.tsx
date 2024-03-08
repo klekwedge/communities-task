@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { CustomSelectOption, FormItem, Group, Select } from '@vkontakte/vkui';
+import { CustomSelectOption, FormItem, Group, Select, Spinner } from '@vkontakte/vkui';
 
-import { GroupType } from '../../types';
+import { GroupType, Loading } from '../../types';
 import './style.css';
 import GroupItem from '../GroupItem/GroupItem';
 
@@ -11,17 +11,16 @@ const privacyValues = [
   { value: 'open', label: 'Открытые' },
 ];
 
-const friendValues = [
-  { value: 'yes', label: 'Да' }
-];
+const friendValues = [{ value: 'yes', label: 'Да' }];
 
 function GroupList() {
   const [privacyFilter, setPrivacyFilter] = useState<string>('all');
   const [avatarColorFilter, setAvatarColorFilter] = useState<string>('any');
   const [avatarColors, setAvatarColors] = useState<string[]>(['any']);
   const [hasFriendsFilter, setHasFriendsFilter] = useState<boolean>(false);
+
   const [groups, setGroups] = useState<GroupType[]>([]);
-  const [error, setError] = useState(null);
+  const [loadingStatus, setLoadingStatus] = useState<Loading>('loading');
 
   const fetchData = async () => {
     try {
@@ -50,9 +49,11 @@ function GroupList() {
 
         setGroups(data);
         setAvatarColors([...avatarColors, ...newAvatarColors]);
+        setLoadingStatus('idle');
       }, 1000);
     } catch (e: any) {
-      setError(e.message);
+      console.error(e.message);
+      setLoadingStatus('error');
     }
   };
 
@@ -79,48 +80,60 @@ function GroupList() {
 
   return (
     <div className="container">
-      <Group className="filters">
-        <FormItem htmlFor="select-id" top="Приватность" className="filters__item">
-          <Select
-            defaultValue="all"
-            id="privacy"
-            placeholder="Не выбрана"
-            options={privacyValues}
-            onChange={(e) => setPrivacyFilter(e.target.value)}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
-          />
-        </FormItem>
-        <FormItem htmlFor="select-id" top="Цвет обложки" className="filters__item">
-          <Select
-            id="colors"
-            placeholder="Не выбран"
-            options={avatarColors.map((color) => ({
-              label: color[0].toUpperCase() + color.slice(1),
-              value: color,
-              avatar: color,
-            }))}
-            onChange={(e) => setAvatarColorFilter(e.target.value)}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
-          />
-        </FormItem>
-        <FormItem htmlFor="select-id" top="Есть друзья" className="filters__item">
-          <Select
-            id="friends"
-            placeholder="Не выбрано"
-            options={friendValues}
-            onChange={(e) => setHasFriendsFilter(e.target.value === 'yes')}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
-          />
-        </FormItem>
-      </Group>
-      <div className="groups">
-        {filteredGroups.map((group) => (
-          <GroupItem key={group.id} group={group} />
-        ))}
-      </div>
+      {loadingStatus === 'loading' && <Spinner size="large" style={{ margin: '20px 0' }} />}
+      {loadingStatus === 'idle' && (
+        <>
+          {' '}
+          <Group className="filters">
+            <FormItem htmlFor="select-id" top="Приватность" className="filters__item">
+              <Select
+                defaultValue="all"
+                id="privacy"
+                placeholder="Не выбрана"
+                options={privacyValues}
+                onChange={(e) => setPrivacyFilter(e.target.value)}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
+              />
+            </FormItem>
+            <FormItem htmlFor="select-id" top="Цвет обложки" className="filters__item">
+              <Select
+                id="colors"
+                placeholder="Не выбран"
+                options={avatarColors.map((color) => ({
+                  label: color[0].toUpperCase() + color.slice(1),
+                  value: color,
+                  avatar: color,
+                }))}
+                onChange={(e) => setAvatarColorFilter(e.target.value)}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
+              />
+            </FormItem>
+            <FormItem htmlFor="select-id" top="Есть друзья" className="filters__item">
+              <Select
+                id="friends"
+                placeholder="Не выбрано"
+                options={friendValues}
+                onChange={(e) => setHasFriendsFilter(e.target.value === 'yes')}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
+              />
+            </FormItem>
+          </Group>
+          <div className="groups">
+            {filteredGroups.map((group) => (
+              <GroupItem key={group.id} group={group} />
+            ))}
+          </div>
+          {!filteredGroups.length && (
+            <h2 className="groups__title">
+              Сообщества не найдены. По вашим критериям поиска нет результатов. Попробуйте изменить фильтры или
+              расширить критерии поиска.
+            </h2>
+          )}
+        </>
+      )}
     </div>
   );
 }
