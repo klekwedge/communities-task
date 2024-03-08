@@ -44,9 +44,25 @@ function GroupList() {
     }
   };
 
+  const filterGroups = (): Group[] => groups.filter(group => {
+      // Фильтрация по типу приватности
+      if (privacyFilter === 'closed' && !group.closed) return false;
+      if (privacyFilter === 'open' && group.closed) return false;
+
+      // Фильтрация по цвету аватарки
+      if (avatarColorFilter !== 'any' && group.avatar_color !== avatarColorFilter) return false;
+
+      // Фильтрация по наличию друзей
+      if (hasFriendsFilter && (!group.friends || group.friends.length === 0)) return false;
+
+      return true;
+    });
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  const filteredGroups = filterGroups();
 
   return (
     <div className="container">
@@ -75,10 +91,10 @@ function GroupList() {
         </label>
       </div>
       <div className="groups">
-        {groups.map((group) => (
+        {filteredGroups.map((group) => (
           <GroupItem key={group.id} group={group} />
         ))}
-      </div>{' '}
+      </div>
     </div>
   );
 }

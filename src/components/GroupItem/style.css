@@ -20,6 +20,7 @@
 }
 
 .group__statistic {
+  margin-top: 5px;
   display: flex;
   gap: 3px;
 }
