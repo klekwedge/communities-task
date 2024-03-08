@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Card, CardGrid, CustomSelectOption, FormItem, Group, Panel, PanelHeader, Select, View } from '@vkontakte/vkui';
+import { CustomSelectOption, FormItem, Group, Select } from '@vkontakte/vkui';
 
 import { GroupType } from '../../types';
 import './style.css';
@@ -12,8 +12,7 @@ const privacyValues = [
 ];
 
 const friendValues = [
-  { value: 'yes', label: 'Да' },
-  { value: 'no', label: 'Нет' },
+  { value: 'yes', label: 'Да' }
 ];
 
 function GroupList() {
@@ -75,8 +74,6 @@ function GroupList() {
   useEffect(() => {
     fetchData();
   }, []);
-
-  console.log(hasFriendsFilter)
 
   const filteredGroups = filterGroups();
 
