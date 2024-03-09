@@ -44,3 +44,50 @@ interface User {
 
 Результатом тестового задания будет являться проект, доступный по ссылке для проверки.
 CSS оцениваться не будет, можно не обращать внимание на визуальную составляющую.
+
+# Выполнение задания для  команды сообществ
+
+## Оглавление
+
+- [Инструкции по развертыванию](#инструкции-по-развертыванию)
+- [Обзор](#обзор)
+  - [Скриншот](#скриншот)
+  - [Ссылки](#ссылки)
+- [Мой процесс](#мой-процесс)
+  - [Стек](#стек)
+- [Автор](#автор)
+
+## Инструкции по развертыванию
+
+**Для запуска проекта на вашем компьютере должны быть установлены [npm](https://nodejs.org/en/) и [git](https://git-scm.com/downloads)**
+
+1. Сделайте клон этого репозитория ```https://github.com/klekwedge/communities-task.git```
+2. Установите все необходимые пакеты npm с помощью ```npm i```
+3. Запустите проект командой ```npm run dev```
+
+> Версия Node.js 20.10.0
+
+### Скриншот
+
+![Главный экран](./preview/screenshot.png)
+
+### Ссылки
+
+- [Ссылка на проект](https://github.com/klekwedge/communities-task)
+- [Деплой](https://klekwedge-communities-task.vercel.app/)
+
+## Мой процесс
+
+### Стек
+
+- React
+- TypeScript
+- CSS
+- VK UI
+
+## Автор
+
+- [Вебсайт](https://klekwedge-cv.vercel.app/)
+- [Linkedin](https://www.linkedin.com/in/klekwedge/)
+- [Facebook](https://www.facebook.com/klekwedge)
+- [Telegram](https://t.me/klekwedge)
