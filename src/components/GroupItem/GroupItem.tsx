@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useState, useMemo } from 'react';
+
 import { GroupType, User } from '../../types';
 import './style.css';
 
@@ -12,6 +13,7 @@ function GroupItem({ group }: { group: GroupType }) {
     }
   };
 
+  // Функция для склонения слова в зависимости от числа
   const pluralizeWord = (number: number, word: string) => {
     if (number === 1) {
       return `${number} ${word}`;
@@ -24,7 +26,10 @@ function GroupItem({ group }: { group: GroupType }) {
     return `${number} ${word}ов`;
   };
 
+  // Текст для количества друзей
   const friendsCountText = useMemo(() => pluralizeWord(group.friends?.length || 0, 'друг'), [group.friends?.length]);
+
+  // Текст для количества подписчиков
   const membersCountText = useMemo(() => pluralizeWord(group.members_count, 'подписчик'), [group.members_count]);
 
   return (
@@ -34,10 +39,10 @@ function GroupItem({ group }: { group: GroupType }) {
         src={`https://placehold.co/100x100/${group.avatar_color || '000000'}/FFFFFF?text=${group.name}&font=roboto`}
         alt={group.name}
       />
+
       <div>
         <h2 className="group__name">{group.name}</h2>
         <p>{group.closed ? 'Закрытая' : 'Открытая'} группа</p>
-
         <div className="group__statistic">
           {group.friends ? (
             <>

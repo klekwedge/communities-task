@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { useState, useEffect } from 'react';
 import { CustomSelectOption, FormItem, Group, Select, Spinner } from '@vkontakte/vkui';
+import GroupItem from '../GroupItem/GroupItem';
+import GroupService from '../../services/GroupService';
 
 import { GroupType, Loading } from '../../types';
 import './style.css';
-import GroupItem from '../GroupItem/GroupItem';
-import GroupService from '../../services/GroupService';
 
 const privacyValues = [
   { value: 'all', label: 'Все' },
@@ -26,6 +27,7 @@ function GroupList() {
   const fetchData = async () => {
     GroupService.getGroups()
       .then((data) => {
+        // Получение уникальных цветов аватарок для групп
         const newAvatarColors = [
           ...new Set(
             data.reduce((acc: string[], current) => {
@@ -70,11 +72,11 @@ function GroupList() {
       {/* Отображаем спиннер при загрузке */}
       {loadingStatus === 'loading' && <Spinner size="large" style={{ margin: '20px 0' }} />}
 
-      {/* Отображаем фильтры и сообщества, если статус загрузки равен idle */}
+      {/* Отображаем фильтры и группы, если статус загрузки равен idle */}
       {loadingStatus === 'idle' && (
         <>
-          {/* Отображаем фильтры */}
           <Group className="filters">
+            {/* Фильтры для приватности */}
             <FormItem htmlFor="select-id" top="Приватность" className="filters__item">
               <Select
                 defaultValue="all"
@@ -82,11 +84,11 @@ function GroupList() {
                 placeholder="Не выбрана"
                 options={privacyValues}
                 onChange={(e) => setPrivacyFilter(e.target.value)}
-                // eslint-disable-next-line react/jsx-props-no-spreading
                 renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
               />
             </FormItem>
-            <FormItem htmlFor="select-id" top="Цвет обложки" className="filters__item">
+             {/* Фильтры для цвета аватарки */}
+            <FormItem htmlFor="select-id" top="Цвет аватарки" className="filters__item">
               <Select
                 id="colors"
                 placeholder="Не выбран"
@@ -96,33 +98,32 @@ function GroupList() {
                   avatar: color,
                 }))}
                 onChange={(e) => setAvatarColorFilter(e.target.value)}
-                // eslint-disable-next-line react/jsx-props-no-spreading
                 renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
               />
             </FormItem>
+              {/* Фильтры для наличия друзей в группе */}
             <FormItem htmlFor="select-id" top="Есть друзья" className="filters__item">
               <Select
                 id="friends"
                 placeholder="Не выбрано"
                 options={friendValues}
                 onChange={(e) => setHasFriendsFilter(e.target.value === 'yes')}
-                // eslint-disable-next-line react/jsx-props-no-spreading
                 renderOption={({ option, ...restProps }) => <CustomSelectOption {...restProps} key={option.value} />}
               />
             </FormItem>
           </Group>
 
-          {/* Отображаем список сообществ */}
+          {/* Отображаем список групп */}
           <div className="groups">
             {filteredGroups.map((group) => (
               <GroupItem key={group.id} group={group} />
             ))}
           </div>
 
-          {/* Отображаем сообщение об отсутствии сообществ с учетом выбранных фильтров */}
+          {/* Отображаем сообщение об отсутствии групп с учетом выбранных фильтров */}
           {!filteredGroups.length && (
             <h2 className="groups__title">
-              Сообщества не найдены. По вашим критериям поиска нет результатов. Попробуйте изменить фильтры или
+              Группы не найдены. По вашим критериям поиска нет результатов. Попробуйте изменить фильтры или
               расширить критерии поиска.
             </h2>
           )}
