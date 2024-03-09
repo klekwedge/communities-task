@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom/client';
-import App from './components/App/App';
 import { AdaptivityProvider, ConfigProvider } from '@vkontakte/vkui';
+import App from './components/App/App';
 import '@vkontakte/vkui/dist/vkui.css';
 import './main.scss';
 

@@ -1,13 +1,17 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import { useState, useMemo } from 'react';
-import { Group, User } from '../../types';
+import { GroupType, User } from '../../types';
 import './style.css';
 
-function GroupItem({ group }: { group: Group }) {
+function GroupItem({ group }: { group: GroupType }) {
   const [selectedFriends, setSelectedFriends] = useState<User[]>([]);
 
-  const handleFriendsClick = (friends: User[]) => {
-    setSelectedFriends(selectedFriends.length ? [] : friends);
+  const handleFriendsClick = (friends: User[] | undefined) => {
+    if (friends) {
+      setSelectedFriends(selectedFriends.length ? [] : friends);
+    }
   };
+  
 
   const pluralizeWord = (number: number, word: string) => {
     if (number === 1) {
@@ -29,7 +33,7 @@ function GroupItem({ group }: { group: Group }) {
       <img
         className="group__image"
         // * В случае, если очень яркие аватарки сообществ на экране и хочется выставить более спокойный цвет,
-        // * то нужно закомментировать строчку "#"" и расскоментировать строчку "&"" ниже:
+        // * то нужно закомментировать строчку "#"" и расскоментировать строчку "&" ниже:
 
         src={`https://placehold.co/100x100/${group.avatar_color || '000000'}/FFFFFF?text=${group.name}&font=roboto`} // #
         // src={`https://placehold.co/100x100/0077FF/FFFFFF?text=${group.name}&font=roboto`} // &
