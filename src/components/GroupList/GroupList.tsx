@@ -4,6 +4,7 @@ import { CustomSelectOption, FormItem, Group, Select, Spinner } from '@vkontakte
 import { GroupType, Loading } from '../../types';
 import './style.css';
 import GroupItem from '../GroupItem/GroupItem';
+import GroupService from '../../services/GroupService';
 
 const privacyValues = [
   { value: 'all', label: 'Все' },
@@ -23,22 +24,11 @@ function GroupList() {
   const [loadingStatus, setLoadingStatus] = useState<Loading>('loading');
 
   const fetchData = async () => {
-    try {
-      const response = await fetch('/groups.json');
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-
-      // Имитация задержки в 1 секунду
-      setTimeout(() => {
-        // if (data.result === 0 || !data.data) {
-        //   throw new Error('Error fetching groups: result 0 or no data field');
-        // }
-
+    GroupService.getGroups()
+      .then((data) => {
         const newAvatarColors = [
           ...new Set(
-            data.reduce((acc, current) => {
+            data.reduce((acc: string[], current) => {
               if (current.avatar_color !== undefined) {
                 acc.push(current.avatar_color);
               }
@@ -50,11 +40,8 @@ function GroupList() {
         setGroups(data);
         setAvatarColors([...avatarColors, ...newAvatarColors]);
         setLoadingStatus('idle');
-      }, 1000);
-    } catch (e: any) {
-      console.error(e.message);
-      setLoadingStatus('error');
-    }
+      })
+      .catch(() => setLoadingStatus('error'));
   };
 
   const filterGroups = (): GroupType[] =>

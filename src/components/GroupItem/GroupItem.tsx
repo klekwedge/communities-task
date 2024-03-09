@@ -11,7 +11,6 @@ function GroupItem({ group }: { group: GroupType }) {
       setSelectedFriends(selectedFriends.length ? [] : friends);
     }
   };
-  
 
   const pluralizeWord = (number: number, word: string) => {
     if (number === 1) {
@@ -32,11 +31,7 @@ function GroupItem({ group }: { group: GroupType }) {
     <div className="groups__group group" key={group.id}>
       <img
         className="group__image"
-        // * В случае, если очень яркие аватарки сообществ на экране и хочется выставить более спокойный цвет,
-        // * то нужно закомментировать строчку "#"" и расскоментировать строчку "&" ниже:
-
-        src={`https://placehold.co/100x100/${group.avatar_color || '000000'}/FFFFFF?text=${group.name}&font=roboto`} // #
-        // src={`https://placehold.co/100x100/0077FF/FFFFFF?text=${group.name}&font=roboto`} // &
+        src={`https://placehold.co/100x100/${group.avatar_color || '000000'}/FFFFFF?text=${group.name}&font=roboto`}
         alt={group.name}
       />
       <div>
