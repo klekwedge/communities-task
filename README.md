@@ -89,4 +89,3 @@ CSS оцениваться не будет, можно не обращать в�
 - [Вебсайт](https://klekwedge-cv.vercel.app/)
 - [Linkedin](https://www.linkedin.com/in/klekwedge/)
 - [Facebook](https://www.facebook.com/klekwedge)
-- [Telegram](https://t.me/klekwedge)
